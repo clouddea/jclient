@@ -89,6 +89,7 @@ public class Server {
 				public void actionPerformed(ActionEvent arg0) {
 					if(arg0.getActionCommand().equals("ÍË³ö")){
 						close();
+						System.exit(0);
 					}else {
 						try {
 							show();
