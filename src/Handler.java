@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 //责任链模式
+@SuppressWarnings("restriction")
 public abstract class Handler implements HttpHandler {
 
 	private HttpHandler nextHandler;
@@ -22,3 +23,8 @@ public abstract class Handler implements HttpHandler {
 		}
 	}
 }
+
+
+
+
+

@@ -26,6 +26,7 @@ import java.net.URL;
 import com.sun.net.httpserver.*;
 public class Server {
 	private HttpServer server;
+	private int maxCon = 1000;
 	private Image image;
 	private String toolTip = "欢迎使用Java客户端";
 	private PopupMenu menu;
@@ -33,7 +34,7 @@ public class Server {
 	String root;
 	
 	public Server(int port) throws IOException {
-		server = HttpServer.create(new InetSocketAddress("0.0.0.0", port), 1);
+		server = HttpServer.create(new InetSocketAddress("0.0.0.0", port), maxCon);
 		server.createContext("/static/", new StaticHandler(this));
 	}
 	
