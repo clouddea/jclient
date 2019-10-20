@@ -2,6 +2,16 @@
 本项目可以让java拥有编写客户端的能力。我们都知道，Java自带的AWT和Swing不仅难用，还很丑。
 很少有人喜欢用它们。于是我萌生了使用HTML作为客户端的想法，于是诞生了这个项目。本项目是一个框架。
 
+同时，也可以基于本框架开发Web项目。
+
+本项目具有以下特点：
+
++ 支持get参数
++ 支持post参数
++ 支持cookie
++ 支持ssission
++ 支持formdata及文件传输
+
 # 效果
  
  ### 示例程序界面
@@ -37,18 +47,13 @@
 
 ### 添加路由
 
-Http的请求参数、请求头部、输入流、输出流等等都是通过HttpExchange操作的
+Http的请求参数、请求头部、输入流、输出流等等都是通过Request操作的
 
 ```java
-	server.addContext("/", new Handler(null) {
+	server.addContext("/", new Handler() {
 		@Override
-		public void handle(HttpExchange arg0) {
-			OutputStream os = arg0.getResponseBody();
-			try {
-				os.write("欢迎访问本页面".getBytes("utf-8"));
-			} catch (UnsupportedEncodingException e) {
-			} catch (IOException e) {
-			}
+		public void handle(Request req, Response resp) {
+			resp.getWriter().println("6666");
 		}
 	});
 ```
@@ -102,4 +107,42 @@ Http的请求参数、请求头部、输入流、输出流等等都是通过Http
 	server.setRoot("app/");
 ```
 
+
+# 其它
+
+以下是输入输出的基本使用方式：
+```java
+	//获得参数（不分get或post，同servlet）
+	req.getParam(String key)
+	req.getParams()
+	
+	//请求或响应头
+	req.getHeader(String key)
+	req.getHeaders()
+	resp.setHeader(String key, String value);
+	
+	//cookie
+	req.getCookie(String key)
+	req.getCookies()
+	resp.setCookie(String key,String value);                       //默认为根路径，关闭浏览器失效
+	resp.setCookie(String key,String value,String path,int age);   //age 为保留的毫秒数
+	
+	//session
+	req.getSession(String key)
+	req.setSession(String key, String value);
+	
+	//formdata和文件
+	FormDataParser parser = new FormDataParser(req.getInputStream());
+	Field field = parser.getField(String key);
+	field.getAsString();                                           //默认为utf-8，只能调用一次
+	field.getAsString(String encoding);                            //只能调用一次
+	field.save(File file)                                          //不可与getAsString混用，且只能调用一次
+	
+	//输出内容（不可混用）
+	resp.getWriter();         //默认utf-8
+	resp.getWriter(String charset)
+	rresp.getOutputStream()
+
+
+```
 
