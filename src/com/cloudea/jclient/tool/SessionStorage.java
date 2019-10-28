@@ -57,7 +57,7 @@ public class SessionStorage {
 		String key = (new Date().getTime() + "" + rand.nextInt(10000));
 		SessionStorageStruct struct = new SessionStorageStruct();
 		storage.put(key, struct);
-		System.out.println("create a key");
+		//System.out.println("create a key");
 		return key;
 	}
 	

@@ -7,6 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.cloudea.jclient.Handler;
 import com.cloudea.jclient.Request;
@@ -82,15 +84,15 @@ public class Test {
 				
 				
 				/*header测试*/
-				resp.setHeader("encoding", "中文");
+				//resp.setHeader("encoding", "中文");
 				
-				for(String key : req.getCookies().keySet()) {
-					resp.getWriter().println(key + ":" + req.getCookie(key));
-				}
+				//for(String key : req.getCookies().keySet()) {
+				//	resp.getWriter().println(key + ":" + req.getCookie(key));
+				//}
 				
 				/*get post测试*/
-				resp.getWriter().println("name=" + req.getParam("name"));
-				System.out.println("name=" + req.getParam("name"));
+				//resp.getWriter().println("name=" + req.getParam("name"));
+				//System.out.println("name=" + req.getParam("name"));
 				
 				
 				
@@ -109,9 +111,37 @@ public class Test {
 		System.out.println(parser.format());
 	}
 	
+	public static void testTemplate() {
+		Pattern p = Pattern.compile("<include\\s.*?/.*?>", Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher("<!DOCTYPE html>\r\n" + 
+				"<html>\r\n" + 
+				"    <head></head>\r\n" + 
+				"    <body>\r\n" + 
+				"            <include file=\"te/a.html\" a=6 7=8 />\r\n" + 
+				"\r\n" + 
+				"           <div>66666</div> \r\n" + 
+				"           <Include file=\"666\" >\r\n" + 
+				"\r\n" + 
+				"           </iclude>\r\n" + 
+				"        </body>\r\n" + 
+				"</html>");
+		while(m.find()) {
+			System.out.println("找到");
+			System.out.println(m.group());
+			Pattern p2 = Pattern.compile("file=\"?([\\w\\./_]+)\"?");
+			Matcher m2 = p2.matcher(m.group());
+			if(m2.find()) {
+				System.out.println("第二次匹配:" + m2.group());
+				System.out.println("第三次匹配:" + m2.group(1));
+			}
+		}
+		
+	}
+	
 	public static void main(String[] args) {
-		testTool();
+		//testTool();
 		testServer();
+		//testTemplate();
 	}
 
 }

@@ -11,6 +11,7 @@
 + 支持cookie
 + 支持ssission
 + 支持formdata及文件传输
++ 支持静态包含（include）
 
 # 效果
  
@@ -108,7 +109,7 @@ Http的请求参数、请求头部、输入流、输出流等等都是通过Requ
 ```
 
 
-# 其它
+# 输入输出
 
 以下是输入输出的基本使用方式：
 ```java
@@ -146,3 +147,20 @@ Http的请求参数、请求头部、输入流、输出流等等都是通过Requ
 
 ```
 
+# 静态包含
+
+本框架支持html/htm文件的静态包含。类似于jsp的<%@include file="xxx"%>，可以在一个网页文件中包含另外一个网页文件。
+注意不要`循环包含`，这会导致栈溢出。
+使用方式如下所示。
+
+```html
+<body>
+	<include file="header.html"></include>
+	<include file="menu1.html"></include>
+	<include file="footer.html"></include>
+</body>
+```
+
+
+注意：被包含页面如果更新，包含页面并不会更新，需要你再把它保存一下，即刷新一下它的“修改时间”。
+程序检测到文件被修改，则会重新构造。
